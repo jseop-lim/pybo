@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Count
 
-from ..models import Question
+from ..models import Question, Answer
 
 
 def index(request):
@@ -46,6 +46,21 @@ def detail(request, question_id):
     """
     pybo 내용 출력
     """
+    # 입력파라미터
+    page = request.GET.get('page', '1')  # 페이지
+    so = request.GET.get('so', 'recommend')  # 정렬기준
     question = get_object_or_404(Question, pk=question_id)
-    context = {'question': question}
+
+    # 정렬
+    if so == 'recommend':
+        answer_list = Answer.objects.filter(question=question) \
+            .annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
+    elif so == 'recent':
+        answer_list = Answer.objects.filter(question=question).order_by('-create_date')
+
+    # 페이징처리
+    paginator = Paginator(answer_list, 5)  # 페이지당 5개식 보여주기
+    page_obj = paginator.get_page(page)
+
+    context = {'question': question, 'answer_set': page_obj, 'page': page, 'so': so}
     return render(request, 'pybo/question_detail.html', context)

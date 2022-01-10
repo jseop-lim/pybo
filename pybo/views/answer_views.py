@@ -21,7 +21,7 @@ def answer_create(request, question_id):
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
-            return redirect(f"{resolve_url('pybo:detail', question_id=question.id)}#answer_{answer.id}")
+            return redirect(f"{resolve_url('pybo:detail', question_id=question.id)}#answer_start")
     else:
         form = AnswerForm()
     context = {'question': question, 'form': form}
@@ -44,7 +44,7 @@ def answer_modify(request, answer_id):
             answer = form.save(commit=False)
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect(f"{resolve_url('pybo:detail', question_id=answer.question.id)}#answer_{answer.id}")
+            return redirect(f"{resolve_url('pybo:detail', question_id=answer.question.id)}#answer_start")
     else:
         form = AnswerForm(instance=answer)
     context = {'answer': answer, 'form': form}

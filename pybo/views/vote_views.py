@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, resolve_url
 
 from ..models import Question, Answer
 
@@ -28,4 +28,5 @@ def vote_answer(request, answer_id):
         messages.error(request, '본인이 작성한 글을 추천할 수 없습니다.')
     else:
         answer.voter.add(request.user)
-    return redirect('pybo:detail', question_id=answer.question.id)
+    # todo 추천 시 답변 목록의 페이지 유지하기
+    return redirect(f"{resolve_url('pybo:detail', question_id=answer.question.id)}#answer_start")

@@ -77,9 +77,19 @@
         </div>
     </div>
     <!-- 답변 표시 Start -->
-    <h5 class="border-bottom my-3 py-2">{{ question.answer_set.count }}개의 답변이 있습니다.</h5>
-    {% for answer in question.answer_set.all %}
-    <a name="answer_{{ answer.id }}"></a>
+    <a name="answer_start"></a>
+    <div class="row justify-content-between border-bottom my-3">
+        <div class="col-4 py-2">
+            <h5>{{ answer_set.paginator.count }}개의 답변이 있습니다.</h5>
+        </div>
+        <div class="col-2">
+            <select class="form-control so">
+                <option value="recommend" {% if so == 'recommend' %}selected{% endif %}>추천순</option>
+                <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
+            </select>
+        </div>
+    </div>
+    {% for answer in answer_set %}
     <div class="row my-3">
         <div class="col-1">  <!-- 추천 영역 -->
             <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{ answer.voter.count }}</div>
@@ -126,7 +136,7 @@
                                 (수정:{{ comment.modify_date }})
                                 {% endif %}
                             </span>
-                            {% if request.user == comment.author %}
+                            {% if request.user == co    mment.author %}
                             <a href="{% url 'pybo:comment_modify_answer' comment.id %}" class="small">수정</a>,
                             <a href="#" class="small delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}">삭제</a>
                             {% endif %}
@@ -145,6 +155,48 @@
     </div>
     {% endfor %}
     <!-- 답변 표시 End -->
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 처음페이지 -->
+        <li class="page-item">
+            <a class="page-link" data-page="1" href="#">처음</a>
+        </li>
+        <!-- 이전페이지 -->
+        {% if answer_set.has_previous %}
+        <li class="page-item">
+            <a class="page-link" data-page="{{ answer_set.previous_page_number }}" href="#">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in answer_set.paginator.page_range %}
+            {% if page_number >= answer_set.number|add:-4 and page_number <= answer_set.number|add:4 %}
+                {% if page_number == answer_set.number %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" data-page="{{ page_number }}" href="#">{{ page_number }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" data-page="{{ page_number }}" href="#">{{ page_number }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if answer_set.has_next %}
+        <li class="page-item">
+             <a class="page-link" data-page="{{ answer_set.next_page_number }}" href="#">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
     <!-- 답변 등록폼 Start -->
     <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3">
         {% csrf_token %}
@@ -168,20 +220,34 @@
     </form>
     <!-- 답변 등록폼 End -->
 </div>
+<form id="searchForm" method="get" action="{% url 'pybo:detail' question.id %}">
+    <input type="hidden" id="page" name="page" value="{{ page }}">
+    <input type="hidden" id="so" name="so" value="{{ so }}">
+</form>
 {% endblock %}
 {% block script %}
 <script type='text/javascript'>
-$(document).ready(function(){
-    $(".delete").on('click', function() {
-        if(confirm("정말 삭제하시겠습니까?")) {
-            location.href = $(this).data('uri');
-        }
+    $(document).ready(function(){
+        $(".delete").on('click', function() {
+            if(confirm("정말 삭제하시겠습니까?")) {
+                location.href = $(this).data('uri');
+            }
+        });
+        $(".recommend").on('click', function() {
+            if(confirm("정말 추천하시겠습니까?")) {
+                location.href = $(this).data('uri');
+            }
+        });
+
+        $(".page-link").on('click', function() {
+            $("#page").val($(this).data("page"));
+            $("#searchForm").submit();
+        });
+        $(".so").on('change', function() {
+            $("#so").val($(this).val());
+            $("#page").val(1);  // 새로운 기준으로 정렬할 경우 1페이지부터 조회한다.
+            $("#searchForm").submit();
+        });
     });
-    $(".recommend").on('click', function() {
-        if(confirm("정말 추천하시겠습니까?")) {
-            location.href = $(this).data('uri');
-        }
-    });
-});
 </script>
 {% endblock %}

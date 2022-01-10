@@ -7,7 +7,7 @@
             <select class="form-control so">
                 <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
                 <option value="recommend" {% if so == 'recommend' %}selected{% endif %}>추천순</option>
-                <option value="popular" {% if so == 'popular' %}selected{% endif %}>댓글순</option>
+                <option value="popular" {% if so == 'popular' %}selected{% endif %}>답변순</option>
             </select>
         </div>
         <div class="col-4 input-group">
@@ -76,7 +76,7 @@
         {% endif %}
         <!-- 페이지리스트 -->
         {% for page_number in question_list.paginator.page_range %}
-            {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+            {% if page_number >= question_list.number|add:-4 and page_number <= question_list.number|add:4 %}
                 {% if page_number == question_list.number %}
                 <li class="page-item active" aria-current="page">
                     <a class="page-link" data-page="{{ page_number }}" href="#">{{ page_number }}</a>
