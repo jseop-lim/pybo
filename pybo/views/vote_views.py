@@ -15,7 +15,7 @@ def vote_question(request, question_id):
         messages.error(request, '본인이 작성한 글을 추천할 수 없습니다.')
     else:
         question.voter.add(request.user)
-    return redirect('pybo:detail', question_id=question.id)
+    return redirect(question)
 
 
 @login_required(login_url='common:login')
@@ -29,4 +29,4 @@ def vote_answer(request, answer_id):
     else:
         answer.voter.add(request.user)
     # todo 추천 시 답변 목록의 페이지 유지하기
-    return redirect(f"{resolve_url('pybo:detail', question_id=answer.question.id)}#answer_start")
+    return redirect(f"{resolve_url(answer.question)}#answer_start")

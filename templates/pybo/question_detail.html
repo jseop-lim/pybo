@@ -136,7 +136,7 @@
                                 (수정:{{ comment.modify_date }})
                                 {% endif %}
                             </span>
-                            {% if request.user == co    mment.author %}
+                            {% if request.user == coment.author %}
                             <a href="{% url 'pybo:comment_modify_answer' comment.id %}" class="small">수정</a>,
                             <a href="#" class="small delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}">삭제</a>
                             {% endif %}
@@ -220,7 +220,7 @@
     </form>
     <!-- 답변 등록폼 End -->
 </div>
-<form id="searchForm" method="get" action="{% url 'pybo:detail' question.id %}">
+<form id="searchForm" method="get" action="{{ question.get_absolute_url }}">
     <input type="hidden" id="page" name="page" value="{{ page }}">
     <input type="hidden" id="so" name="so" value="{{ so }}">
 </form>

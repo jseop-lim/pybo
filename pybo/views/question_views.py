@@ -34,7 +34,7 @@ def question_modify(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
         messages.error(request, '수정 권한이 없습니다.')
-        return redirect('pybo:detail', question_id=question.id)
+        return redirect(question)
 
     if request.method == "POST":
         form = QuestionForm(request.POST, instance=question)
@@ -42,7 +42,7 @@ def question_modify(request, question_id):
             question = form.save(commit=False)
             question.modify_date = timezone.now()  # 수정일시 저장
             question.save()
-            return redirect('pybo:detail', question_id=question.id)
+            return redirect(question)
     else:
         form = QuestionForm(instance=question)
     context = {'form': form}
@@ -57,6 +57,6 @@ def question_delete(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
         messages.error(request, '삭제 권한이 없습니다.')
-        return redirect('pybo:detail', question_id=question.id)
+        return redirect(question)
     question.delete()
     return redirect('pybo:index')
