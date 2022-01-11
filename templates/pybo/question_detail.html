@@ -53,7 +53,7 @@
                         <a name="comment_{{ comment.id }}"></a>
                         <div class="comment py-2 text-muted">  <!-- 댓글 각각에 comment 스타일 지정 -->
                             <span style="white-space: pre-line;">{{ comment.content }}</span>
-                            <span
+                            <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
                                 {% if comment.modify_date %}
                                 (수정:{{ comment.modify_date }})
@@ -130,13 +130,13 @@
                         <a name="comment_{{ comment.id }}"></a>
                         <div class="comment py-2 text-muted">  <!-- 댓글 각각에 comment 스타일 지정 -->
                             <span style="white-space: pre-line;">{{ comment.content }}</span>
-                            <span
+                            <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
                                 {% if comment.modify_date %}
                                 (수정:{{ comment.modify_date }})
                                 {% endif %}
                             </span>
-                            {% if request.user == coment.author %}
+                            {% if request.user == comment.author %}
                             <a href="{% url 'pybo:comment_modify_answer' comment.id %}" class="small">수정</a>,
                             <a href="#" class="small delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}">삭제</a>
                             {% endif %}
@@ -144,9 +144,10 @@
                         {% endfor %}
                     </div>
                     {% endif %}
+                    <!-- 댓글 추가 링크 -->
                     <div>
                         <a href="{% url 'pybo:comment_create_answer' answer.id %}"
-                           class="small"><small>댓글 추가 ..</small></a>  <!-- 댓글 추가 링크 -->
+                           class="small"><small>댓글 추가 ..</small></a>
                     </div>
                     <!-- 답변 댓글 End -->
                 </div>

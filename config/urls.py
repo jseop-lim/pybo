@@ -23,4 +23,5 @@ urlpatterns = [
     path('pybo/', include('pybo.urls')),
     path('common/', include('common.urls')),
     path('', base_views.index, name='index')
+    # todo ''을 질문과답변 카테고리와 연결하기
 ]
