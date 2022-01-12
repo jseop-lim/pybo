@@ -5,7 +5,7 @@ from django.db.models import Q, Count
 from ..models import Question, Answer, Category
 
 
-def index(request, category_name='free'):
+def index(request, category_name='qna'):
     '''
     pybo 목록 출력
     '''
@@ -43,7 +43,7 @@ def index(request, category_name='free'):
     max_index = len(paginator.page_range)
 
     context = {'question_list': page_obj, 'max_index': max_index, 'page': page, 'kw': kw, 'so': so,
-               'category_list': category_list, 'cur_category': category}
+               'category_list': category_list, 'category': category}
     return render(request, 'pybo/question_list.html', context)
 
 

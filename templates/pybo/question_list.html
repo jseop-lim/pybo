@@ -8,13 +8,13 @@
 <!-- Sidebar  -->
 <nav id="sidebar" class="border-top border-secondary">
     <div class="list-group">
-        {% for category in category_list %}
-            {% if category == cur_category %}
+        {% for cat in category_list %}
+            {% if cat == category %}
                 <a class="rounded-0 list-group-item list-group-item-action list-group-item-light active"
-                   href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                   href="{{ cat.get_absolute_url }}">{{ cat.description }}</a>
             {% else %}
                 <a class="rounded-0 list-group-item list-group-item-action list-group-item-light"
-                   href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                   href="{{ cat.get_absolute_url }}">{{ cat.description }}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -25,7 +25,7 @@
 <!-- Content -->
 <div id="content" class="border-top border-secondary">
     <div class="content_block">
-    <h5 class="border-bottom pl-2 pb-3 my-2">질문과답변</h5>
+    <h5 class="border-bottom pl-2 pb-3 my-2">{{ category.description }}</h5>
 
     <div class="row justify-content-between my-3">
         <div class="col-2">
@@ -129,12 +129,14 @@
         </li>
     </ul>
     <!-- 페이징처리 끝 -->
-    <a href="{% url 'pybo:question_create' %}" class="btn btn-primary">질문 등록하기</a>
+    <a href="{% url 'pybo:question_create' category.name %}" class="btn btn-primary">질문 등록하기</a>
     </div>
 </div>
         </div>
+    </div>
+</div>
 
-<form id="searchForm" method="get" action="{% url 'index' %}">
+<form id="searchForm" method="get" action="{{ category.get_absolute_url }}">
     <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
     <input type="hidden" id="page" name="page" value="{{ page }}">
     <input type="hidden" id="so" name="so" value="{{ so }}">

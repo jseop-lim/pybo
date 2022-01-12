@@ -4,25 +4,27 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
 from ..forms import QuestionForm
-from ..models import Question
+from ..models import Question, Category
 
-
+# todo question 인스턴스 속성에 카테고리 대입
 @login_required(login_url='common:login')
-def question_create(request):
+def question_create(request, category_name):
     """
     pybo 질문등록
     """
+    category = Category.objects.get(name=category_name)
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
             question.author = request.user  # author 속성에 로그인 계정 저장
             question.create_date = timezone.now()
+            question.category = category
             question.save()
-            return redirect('pybo:index')
+            return redirect(category)
     else:  # request.method == 'GET'
         form = QuestionForm()
-    context = {'form': form}
+    context = {'form': form, 'category': category}
     return render(request, 'pybo/question_form.html', context)
 
 
@@ -45,7 +47,7 @@ def question_modify(request, question_id):
             return redirect(question)
     else:
         form = QuestionForm(instance=question)
-    context = {'form': form}
+    context = {'form': form, 'category': question.category}
     return render(request, 'pybo/question_form.html', context)
 
 
@@ -59,4 +61,4 @@ def question_delete(request, question_id):
         messages.error(request, '삭제 권한이 없습니다.')
         return redirect(question)
     question.delete()
-    return redirect('pybo:index')
+    return redirect(question.category)
