@@ -23,6 +23,9 @@ def answer_create(request, question_id):
             answer.save()
             return redirect(f"{resolve_url(question)}#answer_start")
     else:
+        # todo paginator 생성하고 page 넘기는 기능 답변과 댓글에 공통적이므로 한 번만 쓰는 법?(answer_index 구하기?)
+        # page = request.GET.get('page', '1')  # 페이지
+        # so = request.GET.get('so', 'recommend')  # 정렬기준
         form = AnswerForm()
     context = {'question': question, 'form': form}
     return render(request, 'pybo/question_detail.html', context)

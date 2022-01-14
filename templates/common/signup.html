@@ -6,11 +6,12 @@
             <h4>계정생성</h4>
         </div>
         <div class="col-8 text-right">
-            <span>또는 <a href="{% url 'common:login' %}">로그인 하세요.</a></span>
+            <span>또는 <a href="{% url 'common:signup' %}?next={{ next }}">로그인 하세요.</a></span>
         </div>
     </div>
     <form method="post" class="post-form" action="{% url 'common:signup' %}">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">  <!-- 계정 생성 후 이동되는 URL-->
         {% include "form_errors.html" %}
         <div class="form-group">
             <label for="username">사용자 이름</label>
