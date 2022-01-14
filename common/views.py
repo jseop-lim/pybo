@@ -8,7 +8,7 @@ from common.forms import UserForm
 
 def signup(request):
     """
-    계정생성
+    회원가입
     """
     if request.method == "POST":
         form = UserForm(request.POST)
@@ -18,11 +18,10 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request, user)  # 로그인
-            return redirect(request.POST.get('next', 'pybo:index'))
+            return redirect('pybo:index')
     else:
         form = UserForm()
-        next = request.GET.get('next', '')
-    return render(request, 'common/signup.html', {'form': form, 'next': next})
+    return render(request, 'common/signup.html', {'form': form})
 
 
 class PasswordChangeView(auth_views.PasswordChangeView):
