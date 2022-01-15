@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from common.forms import UserForm
+from common.forms import UserForm, PasswordResetForm
 
 
 def signup(request):
@@ -31,3 +31,22 @@ class PasswordChangeView(auth_views.PasswordChangeView):
     # def form_valid(self, form):  # 유효성 검사 성공 이후 로직
     #     messages.success(self.request, '암호를 변경했습니다.')  # 성공 메시지
     #     return super().form_valid(form)  # 폼 검사 결과를 반환
+
+
+class PasswordResetView(auth_views.PasswordResetView):
+    template_name = 'common/password_reset.html'
+    success_url = reverse_lazy('password_reset_done')
+    form_class = PasswordResetForm
+    # email_template_name = 'registration/password_reset_email.html'
+
+
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'common/password_reset_done.html'
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'common/password_reset_confirm.html'
+    success_url = reverse_lazy('login')
+
+
+# todo 템플릿 파일 만들기

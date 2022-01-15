@@ -7,7 +7,7 @@ from ..forms import QuestionForm
 from ..models import Question, Category
 
 # todo question 인스턴스 속성에 카테고리 대입
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def question_create(request, category_name):
     """
     pybo 질문등록
@@ -28,7 +28,7 @@ def question_create(request, category_name):
     return render(request, 'pybo/question_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def question_modify(request, question_id):
     """
     pybo 질문수정
@@ -51,7 +51,7 @@ def question_modify(request, question_id):
     return render(request, 'pybo/question_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def question_delete(request, question_id):
     """
     pybo 질문삭제

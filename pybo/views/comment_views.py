@@ -7,7 +7,7 @@ from ..forms import CommentForm
 from ..models import Question, Answer, Comment
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_create_question(request, question_id):
     """
     pybo 질문댓글등록
@@ -28,7 +28,7 @@ def comment_create_question(request, question_id):
     return render(request, 'pybo/comment_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_modify_question(request, comment_id):
     """
     pybo 질문댓글수정
@@ -51,7 +51,7 @@ def comment_modify_question(request, comment_id):
     return render(request, 'pybo/comment_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_delete_question(request, comment_id):
     """
     pybo 질문댓글삭제
@@ -64,7 +64,7 @@ def comment_delete_question(request, comment_id):
     return redirect(comment.question)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_create_answer(request, answer_id):
     """
     pybo 답변댓글등록
@@ -85,7 +85,7 @@ def comment_create_answer(request, answer_id):
     return render(request, 'pybo/comment_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_modify_answer(request, comment_id):
     """
     pybo 답변댓글수정
@@ -108,7 +108,7 @@ def comment_modify_answer(request, comment_id):
     return render(request, 'pybo/comment_form.html', context)
 
 
-@login_required(login_url='common:login')
+@login_required(login_url='login')
 def comment_delete_answer(request, comment_id):
     """
     pybo 답변댓글삭제

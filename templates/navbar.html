@@ -9,20 +9,20 @@
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:password_change' %}">{{ user.username }}</a>
+                <a class="nav-link" href="{% url 'password_change' %}">{{ user.username }}</a>
             </li>
             {% endif %}
             {% if user.is_authenticated %}
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>
+                <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
             </li>
             {% else %}
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+                <a class="nav-link" href="{% url 'login' %}">로그인</a>
             </li>
             {% endif %}
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+                <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
             </li>
         </ul>
     </div>
