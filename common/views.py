@@ -25,6 +25,9 @@ def signup(request):
 
 
 class PasswordChangeView(auth_views.PasswordChangeView):
+    """
+    비밀번호 변경
+    """
     template_name = 'common/password_change.html'
     success_url = reverse_lazy('index')
 
@@ -34,19 +37,28 @@ class PasswordChangeView(auth_views.PasswordChangeView):
 
 
 class PasswordResetView(auth_views.PasswordResetView):
+    """
+    비밀번호 초기화 - 사용자ID, email 입력
+    """
     template_name = 'common/password_reset.html'
-    success_url = reverse_lazy('password_reset_done')
+    # success_url = reverse_lazy('password_reset_done')
     form_class = PasswordResetForm
     # email_template_name = 'registration/password_reset_email.html'
 
 
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    """
+    비밀번호 초기화 - 메일 전송 완료
+    """
     template_name = 'common/password_reset_done.html'
 
 
 class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    """
+    비밀번호 초기화 - 새로운 비밀번호 입력
+    """
     template_name = 'common/password_reset_confirm.html'
     success_url = reverse_lazy('login')
 
 
-# todo 템플릿 파일 만들기
+# todo email 템플릿 파일 만들기
