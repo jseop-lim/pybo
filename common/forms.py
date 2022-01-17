@@ -13,7 +13,7 @@ class UserForm(auth_forms.UserCreationForm):
 
 
 class PasswordResetForm(auth_forms.PasswordResetForm):
-    username = auth_forms.UsernameField(label="사용자ID")  # todo 수틀리면 그냥 CharField() 사용할 것
+    username = auth_forms.UsernameField(label="사용자ID")  # CharField 대신 사용
 
     # validation 절차:
     # 1. username에 대응하는 User 인스턴스의 존재성 확인

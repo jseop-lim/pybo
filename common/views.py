@@ -61,4 +61,4 @@ class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     success_url = reverse_lazy('login')
 
 
-# todo email 템플릿 파일 만들기
+# todo password_reset_email.html 템플릿 파일 만들기

@@ -6,7 +6,7 @@ from django.utils import timezone
 from ..forms import QuestionForm
 from ..models import Question, Category
 
-# todo question 인스턴스 속성에 카테고리 대입
+
 @login_required(login_url='login')
 def question_create(request, category_name):
     """
