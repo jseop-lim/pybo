@@ -3,7 +3,7 @@
 <div class="container my-3">
     <h4 class="border-bottom pb-2 my-3">회원가입</h4>
 
-    <form method="post" class="post-form" action="{% url 'signup' %}">
+    <form method="post" class="post-form" action="{% url 'common:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
         <div class="form-group">

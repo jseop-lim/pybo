@@ -7,7 +7,7 @@ from ..forms import AnswerForm
 from ..models import Question, Answer
 
 
-@login_required(login_url='login')
+@login_required(login_url='common:login')
 def answer_create(request, question_id):
     """
     pybo 답변등록
@@ -31,7 +31,7 @@ def answer_create(request, question_id):
     return render(request, 'pybo/question_detail.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='common:login')
 def answer_modify(request, answer_id):
     """
     pybo 답변수정
@@ -54,7 +54,7 @@ def answer_modify(request, answer_id):
     return render(request, 'pybo/answer_form.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='common:login')
 def answer_delete(request, answer_id):
     """
     pybo 답변삭제
