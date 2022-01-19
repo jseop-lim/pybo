@@ -13,10 +13,29 @@
 </head>
 <body>
 {% include "navbar.html" %}
+
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-{% block content %}
-{% endblock %}
+<div class="container my-3">
+    <div class="row">
+
+        <div class="col-sm-12 col-md-3 col-lg-2 p-2">
+            {% include "sidebar.html" %}
+        </div>
+
+        <div class="col-sm-12 col-md-9 col-lg-10 p-2">
+        <!-- Content -->
+            <div id="content" class="border-top border-secondary">
+                <div class="content_block">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
+
 <!-- jQuery JS -->
 <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
 <!-- Bootstrap JS -->

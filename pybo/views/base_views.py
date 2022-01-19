@@ -47,8 +47,7 @@ def index(request, category_name='qna'):
     page_obj = paginator.get_page(page)
     max_index = len(paginator.page_range)
 
-    context = {'question_list': page_obj, 'max_index': max_index, 'page': page, 'kw': kw, 'so': so,
-               'category_list': category_list, 'category': category}
+    context = {'question_list': page_obj, 'max_index': max_index, 'page': page, 'kw': kw, 'so': so, 'category': category}
     return render(request, 'pybo/question_list.html', context)
 
 
@@ -72,5 +71,5 @@ def detail(request, question_id):
     paginator = Paginator(answer_list, 5)  # 페이지당 5개식 보여주기
     page_obj = paginator.get_page(page)
 
-    context = {'question': question, 'answer_set': page_obj, 'page': page, 'so': so}
+    context = {'question': question, 'answer_set': page_obj, 'page': page, 'so': so, 'category': question.category}
     return render(request, 'pybo/question_detail.html', context)
