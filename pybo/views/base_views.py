@@ -3,12 +3,17 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Count
 
 from ..models import Question, Answer, Category
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request, category_name='qna'):
     '''
     pybo 목록 출력
     '''
+    logger.info("[view: index] 질문 목록 출력")
+
     # 입력 파라미터
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
