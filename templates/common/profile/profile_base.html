@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="border-bottom pb-2 my-3">{{ user.username }}</h4>
+{% include "common/profile/profile_tabs.html" %}
+
+<p>기본정보 페이지입니다.이메일: {{ user.email }}</p>
+
+{% endblock %}

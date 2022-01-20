@@ -19,7 +19,6 @@ def index(request, category_name='qna'):
     kw = request.GET.get('kw', '')  # 검색어
     so = request.GET.get('so', 'recent')  # 정렬기준
 
-    category_list = Category.objects.all()
     category = get_object_or_404(Category, name=category_name)
     question_list = Question.objects.filter(category=category)
 
@@ -45,9 +44,8 @@ def index(request, category_name='qna'):
     # 페이징처리
     paginator = Paginator(question_list, 10)  # 페이지당 10개식 보여주기
     page_obj = paginator.get_page(page)
-    max_index = len(paginator.page_range)
 
-    context = {'question_list': page_obj, 'max_index': max_index, 'page': page, 'kw': kw, 'so': so, 'category': category}
+    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so, 'category': category}
     return render(request, 'pybo/question_list.html', context)
 
 

@@ -7,23 +7,26 @@
     </button>
     <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
         <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-            <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:password_change' %}">{{ user.username }}</a>
-            </li>
-            {% endif %}
-            {% if user.is_authenticated %}
-            <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>
-            </li>
+             {% if user.is_authenticated %}
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'common:profile_base' %}">{{ user.username }}</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'common:password_change' %}">계정설정</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>
+                </li>
             {% else %}
-            <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
-            </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+                </li>
             {% endif %}
-            <li class="nav-item ">
-                <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
-            </li>
+
+
         </ul>
     </div>
 </nav>

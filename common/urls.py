@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import account_views, profile_views
+from common.views import account_views, profile_views
 
 
 app_name = 'common'
@@ -19,4 +19,11 @@ urlpatterns = [
     path('password_reset/', account_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', account_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     # path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+
+    # 프로필
+    path('profile/base/', profile_views.profile_base, name='profile_base'),
+    path('profile/question/', profile_views.ProfileQuestionListView.as_view(), name='profile_question'),
+    # path('profile/answer/', profile_views.profile_answer, name='profile_answer'),
+    # path('profile/comment/', profile_views.profile_comment, name='profile_comment'),
+    # path('profile/vote/', profile_views.profile_vote, name='profile_vote'),
 ]
