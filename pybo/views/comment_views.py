@@ -21,7 +21,7 @@ def comment_create_question(request, question_id):
             comment.create_date = timezone.now()
             comment.question = question
             comment.save()
-            return redirect(f"{resolve_url(question)}#comment_{comment.id}")
+            return redirect(comment)
     else:
         form = CommentForm()
     context = {'form': form}
@@ -44,7 +44,7 @@ def comment_modify_question(request, comment_id):
             comment = form.save(commit=False)
             comment.modify_date = timezone.now()
             comment.save()
-            return redirect(f"{resolve_url(comment.question)}#comment_{comment.id}")
+            return redirect(comment)
     else:
         form = CommentForm(instance=comment)
     context = {'form': form}
@@ -78,7 +78,7 @@ def comment_create_answer(request, answer_id):
             comment.create_date = timezone.now()
             comment.answer = answer
             comment.save()
-            return redirect(f"{resolve_url(answer.question)}#comment_{comment.id}")
+            return redirect(comment)
     else:
         form = CommentForm()
     context = {'form': form}
@@ -101,7 +101,7 @@ def comment_modify_answer(request, comment_id):
             comment = form.save(commit=False)
             comment.modify_date = timezone.now()
             comment.save()
-            return redirect(f"{resolve_url(comment.answer.question)}#comment_{comment.id}")
+            return redirect(comment)
     else:
         form = CommentForm(instance=comment)
     context = {'form': form}

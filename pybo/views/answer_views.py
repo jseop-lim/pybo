@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect, resolve_url
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
 from ..forms import AnswerForm
@@ -21,7 +21,7 @@ def answer_create(request, question_id):
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
-            return redirect(f"{resolve_url(question)}#answer_start")
+            return redirect(answer)
     else:
         # todo paginator 생성하고 page 넘기는 기능 답변과 댓글에 공통적이므로 한 번만 쓰는 법?(answer_index 구하기?)
         # page = request.GET.get('page', '1')  # 페이지
@@ -47,7 +47,7 @@ def answer_modify(request, answer_id):
             answer = form.save(commit=False)
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect(f"{resolve_url(answer.question)}#answer_start")
+            return redirect(answer)
     else:
         form = AnswerForm(instance=answer)
     context = {'answer': answer, 'form': form}
