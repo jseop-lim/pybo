@@ -58,12 +58,7 @@ def detail(request, question_id):
     so = request.GET.get('so', 'recommend')  # 정렬기준
     question = get_object_or_404(Question, pk=question_id)
 
-    # 정렬
-    if so == 'recommend':
-        answer_list = Answer.objects.filter(question=question) \
-            .annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
-    elif so == 'recent':
-        answer_list = Answer.objects.filter(question=question).order_by('-create_date')
+    answer_list = Answer.order_by_so(Answer.objects.filter(question=question), so)
 
     # 페이징처리
     paginator = Paginator(answer_list, 5)  # 페이지당 5개식 보여주기

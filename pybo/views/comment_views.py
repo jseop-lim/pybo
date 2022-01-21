@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
@@ -78,7 +80,8 @@ def comment_create_answer(request, answer_id):
             comment.create_date = timezone.now()
             comment.answer = answer
             comment.save()
-            return redirect(comment)
+            path = request.get_full_path()
+            return redirect(resolve_url(answer.question)+f'?{urlparse(path).query}#comment_{comment.id}')
     else:
         form = CommentForm()
     context = {'form': form}
@@ -101,7 +104,8 @@ def comment_modify_answer(request, comment_id):
             comment = form.save(commit=False)
             comment.modify_date = timezone.now()
             comment.save()
-            return redirect(comment)
+            path = request.get_full_path()
+            return redirect(resolve_url(comment.answer.question)+f'?{urlparse(path).query}#comment_{comment.id}')
     else:
         form = CommentForm(instance=comment)
     context = {'form': form}
@@ -118,4 +122,6 @@ def comment_delete_answer(request, comment_id):
         messages.error(request, '댓글 삭제 권한이 없습니다.')
     else:
         comment.delete()
-    return redirect(comment.answer.question)
+
+    path = request.get_full_path()
+    return redirect(resolve_url(comment.answer.question)+f'?{urlparse(path).query}#answer_{comment.answer.id}')

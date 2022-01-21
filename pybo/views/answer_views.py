@@ -1,6 +1,8 @@
+from urllib.parse import urlparse, parse_qs
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.utils import timezone
 
 from ..forms import AnswerForm
@@ -15,17 +17,20 @@ def answer_create(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
         form = AnswerForm(request.POST)
+
         if form.is_valid():
             answer = form.save(commit=False)
             answer.author = request.user  # author 속성에 로그인 계정 저장
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
-            return redirect(answer)
+
+            path = request.get_full_path()
+            query_dict = parse_qs(urlparse(path).query)
+            so = query_dict['so'][0]
+            page = answer.get_page(so)
+            return redirect(resolve_url(question)+f'?page={page}&so={so}#answer_{answer.id}')
     else:
-        # todo paginator 생성하고 page 넘기는 기능 답변과 댓글에 공통적이므로 한 번만 쓰는 법?(answer_index 구하기?)
-        # page = request.GET.get('page', '1')  # 페이지
-        # so = request.GET.get('so', 'recommend')  # 정렬기준
         form = AnswerForm()
     context = {'question': question, 'form': form}
     return render(request, 'pybo/question_detail.html', context)
@@ -47,7 +52,8 @@ def answer_modify(request, answer_id):
             answer = form.save(commit=False)
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect(answer)
+            path = request.get_full_path()
+            return redirect(resolve_url(answer.question)+f'?{urlparse(path).query}#answer_{answer.id}')
     else:
         form = AnswerForm(instance=answer)
     context = {'answer': answer, 'form': form}

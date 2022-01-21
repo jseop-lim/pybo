@@ -122,8 +122,8 @@
                 <!-- 질문 수정&삭제 버튼 표시 -->
                 {% if request.user == answer.author %}
                 <div class="my-3">
-                    <a href="{% url 'pybo:answer_modify' answer.id %}"
-                       class="btn btn-sm btn-outline-secondary">수정</a>
+                    <a href="{% url 'pybo:answer_modify' answer.id %}?page={{ page }}&so={{ so }}"
+                       class="next btn btn-sm btn-outline-secondary">수정</a>
                     <a href="#" class="delete btn btn-sm btn-outline-secondary"
                        data-uri="{% url 'pybo:answer_delete' answer.id %}">삭제</a>
                 </div>
@@ -142,8 +142,8 @@
                             {% endif %}
                         </span>
                         {% if request.user == comment.author %}
-                        <a href="{% url 'pybo:comment_modify_answer' comment.id %}" class="small">수정</a>,
-                        <a href="#" class="small delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}">삭제</a>
+                        <a href="{% url 'pybo:comment_modify_answer' comment.id %}?page={{ page }}&so={{ so }}" class="small next">수정</a>,
+                        <a href="#" class="small next delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}?page={{ page }}&so={{ so }}">삭제</a>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -151,8 +151,8 @@
                 {% endif %}
                 <!-- 댓글 추가 링크 -->
                 <div>
-                    <a href="{% url 'pybo:comment_create_answer' answer.id %}"
-                       class="small"><small>댓글 추가 ..</small></a>
+                    <a href="{% url 'pybo:comment_create_answer' answer.id %}?page={{ page }}&so={{ so }}"
+                       class="small next"><small>댓글 추가 ..</small></a>
                 </div>
                 <!-- 답변 댓글 End -->
             </div>
@@ -212,7 +212,7 @@
 </ul>
 
 <!-- 답변 등록폼 Start -->
-<form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3">
+<form action="{% url 'pybo:answer_create' question.id %}?so={{ so }}" method="post" class="my-3">
     {% csrf_token %}
     <!-- 오류표시 Start -->
     {% if form.errors %}
@@ -263,6 +263,12 @@
             $("#page").val(1);  // 새로운 기준으로 정렬할 경우 1페이지부터 조회한다.
             $("#searchForm").submit();
         });
+
+        // todo 자바스크립트로 searchForm의 action 속성을 data('uri')로 변경
+        // $(".next").on('click', function() {  // query string을 다음 url에 포함시킨다.
+        //     $("#searchForm").submit();
+        //     location.href = $(this).data('uri');
+        // });
     });
 </script>
 {% endblock %}
