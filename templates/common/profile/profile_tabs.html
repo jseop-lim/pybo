@@ -5,10 +5,10 @@
     <li class="nav-item">
         <a class="nav-link {% if profile_type == 'question' %}active{% endif %}" href="{% url 'common:profile_question' %}">게시</a>
     </li>
-{#    <li class="nav-item">#}
-{#        <a class="nav-link {% if profile_type == 'answer' %}active{% endif %}" href="{% url 'common:profile_answer' user.id %}">답변</a>#}
-{#    </li>#}
-{#    <li class="nav-item">#}
-{#        <a class="nav-link {% if profile_type == 'comment' %}active{% endif %}" href="{% url 'common:profile_comment' user.id %}">댓글</a>#}
-{#    </li>#}
+    <li class="nav-item">
+        <a class="nav-link {% if profile_type == 'answer' %}active{% endif %}" href="{% url 'common:profile_answer' %}">답변</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if profile_type == 'comment' %}active{% endif %}" href="{% url 'common:profile_comment' %}">댓글</a>
+    </li>
 </ul>

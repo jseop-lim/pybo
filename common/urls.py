@@ -23,7 +23,7 @@ urlpatterns = [
     # 프로필
     path('profile/base/', profile_views.profile_base, name='profile_base'),
     path('profile/question/', profile_views.ProfileQuestionListView.as_view(), name='profile_question'),
-    # path('profile/answer/', profile_views.profile_answer, name='profile_answer'),
-    # path('profile/comment/', profile_views.profile_comment, name='profile_comment'),
+    path('profile/answer/', profile_views.ProfileAnswerListView.as_view(), name='profile_answer'),
+    path('profile/comment/', profile_views.ProfileCommentListView.as_view(), name='profile_comment'),
     # path('profile/vote/', profile_views.profile_vote, name='profile_vote'),
 ]

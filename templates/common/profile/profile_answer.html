@@ -17,7 +17,7 @@
             <th>번호</th>
             <th>구분</th>
             <th>추천</th>
-            <th style="width:50%">제목</th>
+            <th style="width:50%">내용</th>
             <th>작성일시</th>
         </tr>
     </thead>
@@ -29,7 +29,7 @@
             <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
             {{ page_obj.paginator.count|sub:page_obj.start_index|sub:forloop.counter0|add:1 }}
         </td>
-        <td>{{ object.category.description }}</td>
+        <td>{{ object.question.category.description }}</td>
         <td>
             {% if object.voter.count > 0 %}
                 <span class="badge badge-warning px-2 py-1">{{ object.voter.count }}</span>
@@ -39,16 +39,13 @@
         </td>
         <td class="text-left">
             <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-            {% if object.answer_set.count > 0 %}
-            <span class="text-danger small ml-2">{{ object.answer_set.count }}</span>
-            {% endif %}
         </td>
         <td>{{ object.create_date }}</td>
     </tr>
     {% endfor %}
     {% else %}
     <tr>
-        <td colspan="3">등록한 질문이 없습니다.</td>
+        <td colspan="3">등록한 답변이 없습니다.</td>
     </tr>
     {% endif %}
     </tbody>

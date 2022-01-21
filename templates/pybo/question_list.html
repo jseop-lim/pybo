@@ -40,8 +40,10 @@
         </td>
         <td>
             {% if question.voter.all.count > 0 %}
-            <span class="badge badge-warning px-2 py-1">{{ question.voter.all.count }}</span>
-                <!-- question.voter.count와 완전히 같은 쿼리(SQL문 동일) -->
+                <span class="badge badge-warning px-2 py-1">{{ question.voter.count }}</span>
+                    <!-- question.voter.count와 완전히 같은 쿼리(SQL문 동일) -->
+            {% else %}
+                <span class="badge badge-light px-2 py-1" style="color:#ccc;">0</span>
             {% endif %}
         </td>
         <td class="text-left">
@@ -50,7 +52,7 @@
             <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
             {% endif %}
         </td>
-        <td>{{ question.author.username }}</td>  <!-- 글쓴이 추가 -->
+        <td>{{ question.author.username }}</td>
         <td>{{ question.create_date }}</td>
     </tr>
     {% endfor %}

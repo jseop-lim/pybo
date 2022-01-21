@@ -29,6 +29,18 @@ class Question(models.Model):
     def __str__(self):
         return self.subject
 
+    @staticmethod
+    def order_by_so(question_list, so):
+        if so == 'recommend':
+            # aggretation, annotation에는 relationship에 대한 역방향 참조도 가능 (ex. Count('voter'))
+            question_list = question_list.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
+        elif so == 'popular':
+            question_list = question_list.annotate(num_answer=Count('answer')).order_by('-num_answer', '-create_date')
+        else:  # so == 'recent':
+            question_list = question_list.order_by('-create_date')
+
+        return question_list
+
     def get_absolute_url(self):
         return reverse('pybo:detail', args=[self.id])
 
@@ -50,12 +62,12 @@ class Answer(models.Model):
         if so == 'recommend':
             # todo num_voter 필드 추가
             answer_list = answer_list.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
-        elif so == 'recent':
+        else:  # so == 'recent':
             answer_list = answer_list.order_by('-create_date')
 
         return answer_list
 
-    def get_page(self, so):
+    def get_page(self, so='recommend'):
         # todo MySQL 연동 후에 raw SQL로 대체
         # https://stackoverflow.com/questions/1042596/get-the-index-of-an-element-in-a-queryset
         answer_list = Answer.order_by_so(self.question.answer_set.all(), so)
