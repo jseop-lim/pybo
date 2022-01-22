@@ -9,9 +9,9 @@ class Category(models.Model):
     description = models.CharField(max_length=200, null=True, blank=True)
     has_answer = models.BooleanField(default=True)  # 답변가능 여부
 
-    # def __str__(self):
+    def __str__(self):
     #     return self.name
-    # return self.description
+        return self.description
 
     def get_absolute_url(self):
         return reverse('pybo:index', args=[self.name])
@@ -88,7 +88,7 @@ class Answer(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_comment')
     content = models.TextField()
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)

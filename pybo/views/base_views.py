@@ -20,16 +20,8 @@ def index(request, category_name='qna'):
     so = request.GET.get('so', 'recent')  # 정렬기준
 
     category = get_object_or_404(Category, name=category_name)
-    question_list = Question.objects.filter(category=category)
-
     # 정렬
-    if so == 'recommend':
-        # aggretation, annotation에는 relationship에 대한 역방향 참조도 가능 (ex. Count('voter'))
-        question_list = question_list.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
-    elif so == 'popular':
-        question_list = question_list.annotate(num_answer=Count('answer')).order_by('-num_answer', '-create_date')
-    else:
-        question_list = question_list.order_by('-create_date')
+    question_list = Question.order_by_so(Question.objects.filter(category=category), so)
 
     # 검색
     if kw:

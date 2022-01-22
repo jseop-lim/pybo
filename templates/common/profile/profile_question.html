@@ -40,7 +40,7 @@
         <td class="text-left">
             <a href="{{ object.get_absolute_url }}">{{ object }}</a>
             {% if object.answer_set.count > 0 %}
-            <span class="text-danger small ml-2">{{ object.answer_set.count }}</span>
+                <span class="text-danger small ml-2">{{ object.answer_set.count }}</span>
             {% endif %}
         </td>
         <td>{{ object.create_date }}</td>

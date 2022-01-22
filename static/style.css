@@ -6,3 +6,16 @@
 .content_block {
     padding:20px;
 }
+
+#profile_base {
+    padding: 20px;
+    border-left: solid 1px #dfe2e6;
+    border-right: solid 1px #dfe2e6;
+    border-bottom: solid 1px #dfe2e6;
+}
+
+.profile_title {
+    margin: 3px 0;
+    font-size: 1.0em;
+    font-weight: bold;
+}

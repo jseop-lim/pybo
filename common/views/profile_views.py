@@ -1,4 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from itertools import chain
+
+from django.db.models import F, Count
+from django.shortcuts import render
 from django.views.generic import ListView
 from pybo.models import Question, Answer, Comment
 
@@ -62,3 +65,30 @@ class ProfileCommentListView(ProfileObjectListView):
     template_name = 'common/profile/profile_comment.html'
     profile_type = 'comment'
 
+
+class ProfileVoteListView(ProfileObjectListView):
+    """
+    작성한 댓글 목록
+    """
+    template_name = 'common/profile/profile_vote.html'
+    profile_type = 'vote'
+
+    def get_queryset(self):
+        user = self.request.user
+        question_list = user.voter_question.annotate(num_voter=Count('voter'))#.values('subject', 'create_date', 'category', 'num_voter')  # todo subject로 해도 왜 됨? 공식문서 읽기
+        answer_list = user.voter_answer.annotate(category=F('question__category__description'), num_voter=Count('voter'))#.values('content', 'create_date', 'category', 'num_voter')  # todo 카테고리 어케 접근함?
+
+        _query_set = sorted(
+            chain(question_list, answer_list),
+            key=lambda obj: obj.create_date,
+            reverse=True,
+        )
+        return _query_set
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context.update({
+            'profile_type': self.profile_type,
+            # 'so': self.so
+        })
+        return context

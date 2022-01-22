@@ -4,6 +4,9 @@
 <h4 class="border-bottom pb-2 my-3">{{ user.username }}</h4>
 {% include "common/profile/profile_tabs.html" %}
 
-<p>기본정보 페이지입니다.이메일: {{ user.email }}</p>
+<div id="profile_base">
+    <div class="profile_title">이메일</div>  {# todo 템플릿 경로에 profile 폴더 추가돼서 안되는 거 같음 #}
+    <p class="mb-4">{{ user.email }}</p>
+</div>
 
 {% endblock %}

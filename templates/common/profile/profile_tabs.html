@@ -11,4 +11,7 @@
     <li class="nav-item">
         <a class="nav-link {% if profile_type == 'comment' %}active{% endif %}" href="{% url 'common:profile_comment' %}">댓글</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {% if profile_type == 'vote' %}active{% endif %}" href="{% url 'common:profile_vote' %}">추천</a>
+    </li>
 </ul>
