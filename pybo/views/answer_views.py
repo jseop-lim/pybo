@@ -25,9 +25,9 @@ def answer_create(request, question_id):
             answer.question = question
             answer.save()
 
-            path = request.get_full_path()
-            query_dict = parse_qs(urlparse(path).query)
-            so = query_dict['so'][0]
+            _path = request.get_full_path()
+            _query_dict = parse_qs(urlparse(_path).query)
+            so = _query_dict['so'][0]
             page = answer.get_page(so)
             return redirect(resolve_url(question)+f'?page={page}&so={so}#answer_{answer.id}')
     else:

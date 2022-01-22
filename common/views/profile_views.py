@@ -78,12 +78,12 @@ class ProfileVoteListView(ProfileObjectListView):
         question_list = user.voter_question.annotate(num_voter=Count('voter'))#.values('subject', 'create_date', 'category', 'num_voter')  # todo subject로 해도 왜 됨? 공식문서 읽기
         answer_list = user.voter_answer.annotate(category=F('question__category__description'), num_voter=Count('voter'))#.values('content', 'create_date', 'category', 'num_voter')  # todo 카테고리 어케 접근함?
 
-        _query_set = sorted(
+        _queryset = sorted(
             chain(question_list, answer_list),
             key=lambda obj: obj.create_date,
             reverse=True,
         )
-        return _query_set
+        return _queryset
 
     def get_context_data(self, **kwargs):
         context = ListView.get_context_data(self, **kwargs)

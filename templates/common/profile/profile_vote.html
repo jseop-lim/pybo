@@ -39,9 +39,7 @@
         <td class="text-left">
             {% if object.subject %}
                 <a href="{{ object.get_absolute_url }}">{{ object.subject }}</a>
-                {% if object.answer_set.count > 0 %}
-                    <span class="text-danger small ml-2">{{ object.answer_set.count }}</span>
-                {% endif %}
+                <span class="text-danger small ml-2">{{ object.answer_set.count }}</span>
             {% else %}
                 <a href="{{ object.get_absolute_url }}">{{ object.content }}</a>
             {% endif %}

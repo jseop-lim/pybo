@@ -24,9 +24,14 @@ def vote_answer(request, answer_id):
     pybo 답변추천등록
     """
     answer = get_object_or_404(Answer, pk=answer_id)
+    page = request.GET.get('page', '1')
+    so = request.GET.get('so', 'recommend')
+
     if request.user == answer.author:
         messages.error(request, '본인이 작성한 글을 추천할 수 없습니다.')
     else:
         answer.voter.add(request.user)
-    # todo 추천 시 답변 목록의 페이지 유지하기
-    return redirect(f"{resolve_url(answer.question)}#answer_start")
+        if so == 'recommend':
+            page = answer.get_page(so)
+
+    return redirect(resolve_url(answer.question)+f'?page={page}&so={so}#answer_{answer.id}')
