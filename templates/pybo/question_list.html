@@ -52,7 +52,9 @@
             <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
             {% endif %}
         </td>
-        <td>{{ question.author.username }}</td>
+        <td>
+            <a href="{% url 'common:profile_base' question.author.id %}">{{ question.author.username }}</a>
+        </td>
         <td>{{ question.create_date }}</td>
     </tr>
     {% endfor %}

@@ -1,16 +1,19 @@
 from itertools import chain
 
 from django.db.models import F, Count
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
+
 from pybo.models import Question, Answer, Comment
 
 
-def profile_base(request):
+def profile_base(request, user_id):
     """
     프로필 기본정보
     """
-    context = {'user': request.user, 'profile_type': 'base'}
+    user = get_object_or_404(User, pk=user_id)
+    context = {'profile_user': user, 'profile_type': 'base'}
     return render(request, 'common/profile/profile_base.html', context)
 
 
@@ -24,8 +27,9 @@ class ProfileObjectListView(ListView):
         abstract = True
 
     def get_queryset(self):
+        self.profile_user = get_object_or_404(User, pk=self.kwargs['user_id'])
         self.so = self.request.GET.get('so', 'recent')  # 정렬기준
-        object_list = self.model.objects.filter(author=self.request.user)
+        object_list = self.model.objects.filter(author=self.profile_user)
         # 정렬
         object_list = Answer.order_by_so(object_list, self.so)
         return object_list
@@ -33,6 +37,7 @@ class ProfileObjectListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
+            'profile_user': self.profile_user,
             'profile_type': self.profile_type,
             'so': self.so
         })
@@ -74,9 +79,9 @@ class ProfileVoteListView(ProfileObjectListView):
     profile_type = 'vote'
 
     def get_queryset(self):
-        user = self.request.user
-        question_list = user.voter_question.annotate(num_voter=Count('voter'))#.values('subject', 'create_date', 'category', 'num_voter')  # todo subject로 해도 왜 됨? 공식문서 읽기
-        answer_list = user.voter_answer.annotate(category=F('question__category__description'), num_voter=Count('voter'))#.values('content', 'create_date', 'category', 'num_voter')  # todo 카테고리 어케 접근함?
+        self.profile_user = get_object_or_404(User, pk=self.kwargs['user_id'])
+        question_list = self.profile_user.voter_question.annotate(num_voter=Count('voter'))#.values('subject', 'create_date', 'category', 'num_voter')  # todo subject로 해도 왜 됨? 공식문서 읽기
+        answer_list = self.profile_user.voter_answer.annotate(category=F('question__category__description'), num_voter=Count('voter'))#.values('content', 'create_date', 'category', 'num_voter')  # todo 카테고리 어케 접근함?
 
         _queryset = sorted(
             chain(question_list, answer_list),
@@ -88,6 +93,7 @@ class ProfileVoteListView(ProfileObjectListView):
     def get_context_data(self, **kwargs):
         context = ListView.get_context_data(self, **kwargs)
         context.update({
+            'profile_user': self.profile_user,
             'profile_type': self.profile_type,
             # 'so': self.so
         })
