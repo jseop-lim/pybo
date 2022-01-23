@@ -119,10 +119,10 @@
                         <div>{{ answer.create_date }}</div>
                     </div>
                 </div>
-                <!-- 질문 수정&삭제 버튼 표시 -->
+                <!-- 답변 수정&삭제 버튼 표시 -->
                 {% if request.user == answer.author %}
                 <div class="my-3">
-                    <a href="{% url 'pybo:answer_modify' answer.id %}?page={{ page }}&so={{ so }}"
+                    <a href="#" data-uri="{% url 'pybo:answer_modify' answer.id %}"
                        class="next btn btn-sm btn-outline-secondary">수정</a>
                     <a href="#" class="delete btn btn-sm btn-outline-secondary"
                        data-uri="{% url 'pybo:answer_delete' answer.id %}">삭제</a>
@@ -142,8 +142,8 @@
                             {% endif %}
                         </span>
                         {% if request.user == comment.author %}
-                        <a href="{% url 'pybo:comment_modify_answer' comment.id %}?page={{ page }}&so={{ so }}" class="small next">수정</a>,
-                        <a href="#" class="small next delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}?page={{ page }}&so={{ so }}">삭제</a>
+                            <a href="#" class="small next" data-uri="{% url 'pybo:comment_modify_answer' comment.id %}">수정</a>,
+                            <a href="#" class="small delete" data-uri="{% url 'pybo:comment_delete_answer' comment.id %}?page={{ page }}&so={{ so }}">삭제</a>
                         {% endif %}
                     </div>
                     {% endfor %}
@@ -151,7 +151,7 @@
                 {% endif %}
                 <!-- 댓글 추가 링크 -->
                 <div>
-                    <a href="{% url 'pybo:comment_create_answer' answer.id %}?page={{ page }}&so={{ so }}"
+                    <a href="#" data-uri="{% url 'pybo:comment_create_answer' answer.id %}"
                        class="small next"><small>댓글 추가 ..</small></a>
                 </div>
                 <!-- 답변 댓글 End -->
@@ -264,11 +264,11 @@
             $("#searchForm").submit();
         });
 
-        // todo 자바스크립트로 searchForm의 action 속성을 data('uri')로 변경
-        // $(".next").on('click', function() {  // query string을 다음 url에 포함시킨다.
-        //     $("#searchForm").submit();
-        //     location.href = $(this).data('uri');
-        // });
+        {# todo 자바스크립트로 searchForm의 action 속성을 data('uri')로 변경 #}
+        $(".next").on('click', function() {  // query string을 다음 url에 포함시킨다.
+            $("#searchForm").attr('action', $(this).data('uri'))
+            $("#searchForm").submit();
+        });
     });
 </script>
 {% endblock %}
