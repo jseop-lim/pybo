@@ -80,8 +80,8 @@ class ProfileVoteListView(ProfileObjectListView):
 
     def get_queryset(self):
         self.profile_user = get_object_or_404(User, pk=self.kwargs['user_id'])
-        question_list = self.profile_user.voter_question.annotate(num_voter=Count('voter'))#.values('subject', 'create_date', 'category', 'num_voter')  # todo subject로 해도 왜 됨? 공식문서 읽기
-        answer_list = self.profile_user.voter_answer.annotate(category=F('question__category__description'), num_voter=Count('voter'))#.values('content', 'create_date', 'category', 'num_voter')  # todo 카테고리 어케 접근함?
+        question_list = self.profile_user.voter_question.all()
+        answer_list = self.profile_user.voter_answer.annotate(category=F('question__category__description'))
 
         _queryset = sorted(
             chain(question_list, answer_list),
