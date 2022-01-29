@@ -68,20 +68,15 @@ class Answer(models.Model):
         return answer_list
 
     def get_page(self, so='recommend'):
-        # todo MySQL 연동 후에 raw SQL로 대체
-        # https://stackoverflow.com/questions/1042596/get-the-index-of-an-element-in-a-queryset
-        answer_list = Answer.order_by_so(self.question.answer_set.all(), so)
+        queryset = Answer.order_by_so(self.question.answer_set.all(), so)
 
         index = 0
-        for _answer in answer_list:
+        for _answer in queryset:
             index += 1
             if self == _answer:
                 break
 
-        return (index - 1)//5 + 1
-
-    # def get_relative_url(self, so, page):
-    #     return reverse('pybo:detail', args=[self.question.id]) + f'?page={page}&so={so}#answer_{self.id}'
+        return (index - 1) // 5 + 1
 
     def get_absolute_url(self):
         return reverse('pybo:detail', args=[self.question.id]) + f'?page={self.get_page()}#answer_{self.id}'
@@ -103,4 +98,4 @@ class Comment(models.Model):
             return reverse('pybo:detail', args=[self.question.id]) + '#comment_question_start'
         else:  # if self.answer:
             return reverse('pybo:detail', args=[self.answer.question.id]) + \
-                   f'?page={self.answer.get_page()}#comment_{self.id}'  # todo comment_id 가능?
+                   f'?page={self.answer.get_page()}#comment_{self.id}'
