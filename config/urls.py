@@ -18,6 +18,9 @@ from django.urls import path, include
 from common.views import account_views
 from pybo.views import base_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +29,6 @@ urlpatterns = [
     path('', base_views.index, name='index'),
     path('common/reset/<uidb64>/<token>/', account_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'common.views.account_views.page_not_found'

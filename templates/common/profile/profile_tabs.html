@@ -1,17 +1,19 @@
+<h4 class="border-bottom pb-2 my-3">{{ profile.user.username }}</h4>
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link {% if profile_type == 'base' %}active{% endif %}" href="{% url 'common:profile_base' profile_user.id %}">기본정보</a>
+        <a class="nav-link {% if profile_type == 'base' %}active{% endif %}" href="{% url 'common:profile_base' profile.user.id %}">기본정보</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if profile_type == 'question' %}active{% endif %}" href="{% url 'common:profile_question' profile_user.id %}">게시</a>
+        <a class="nav-link {% if profile_type == 'question' %}active{% endif %}" href="{% url 'common:profile_question' profile.user.id %}">게시</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if profile_type == 'answer' %}active{% endif %}" href="{% url 'common:profile_answer' profile_user.id %}">답변</a>
+        <a class="nav-link {% if profile_type == 'answer' %}active{% endif %}" href="{% url 'common:profile_answer' profile.user.id %}">답변</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if profile_type == 'comment' %}active{% endif %}" href="{% url 'common:profile_comment' profile_user.id %}">댓글</a>
+        <a class="nav-link {% if profile_type == 'comment' %}active{% endif %}" href="{% url 'common:profile_comment' profile.user.id %}">댓글</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if profile_type == 'vote' %}active{% endif %}" href="{% url 'common:profile_vote' profile_user.id %}">추천</a>
+        <a class="nav-link {% if profile_type == 'vote' %}active{% endif %}" href="{% url 'common:profile_vote' profile.user.id %}">추천</a>
     </li>
 </ul>

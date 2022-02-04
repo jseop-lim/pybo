@@ -1,6 +1,6 @@
 from itertools import chain
 
-from django.db.models import F, Count
+from django.db.models import F
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
@@ -12,8 +12,8 @@ def profile_base(request, user_id):
     """
     프로필 기본정보
     """
-    user = get_object_or_404(User, pk=user_id)
-    context = {'profile_user': user, 'profile_type': 'base'}
+    profile = get_object_or_404(User, pk=user_id).profile
+    context = {'profile': profile, 'profile_type': 'base'}
     return render(request, 'common/profile/profile_base.html', context)
 
 
@@ -37,7 +37,7 @@ class ProfileObjectListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'profile_user': self.profile_user,
+            'profile': self.profile_user.profile,
             'profile_type': self.profile_type,
             'so': self.so
         })
@@ -93,7 +93,7 @@ class ProfileVoteListView(ProfileObjectListView):
     def get_context_data(self, **kwargs):
         context = ListView.get_context_data(self, **kwargs)
         context.update({
-            'profile_user': self.profile_user,
+            'profile': self.profile_user.profile,
             'profile_type': self.profile_type,
             # 'so': self.so
         })

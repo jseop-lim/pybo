@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 import django.contrib.auth.forms as auth_forms
 from django.contrib.auth.models import User
+from common.models import Profile
 
 
 class UserForm(auth_forms.UserCreationForm):
@@ -44,3 +45,10 @@ class PasswordResetForm(auth_forms.PasswordResetForm):
             u for u in active_users
             if u.has_usable_password()
         )
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile  # 사용할 모델
+        fields = ['image']
+

@@ -30,18 +30,6 @@ def signup(request):
     return render(request, 'common/signup.html', {'form': form})
 
 
-class PasswordChangeView(auth_views.PasswordChangeView):
-    """
-    비밀번호 변경
-    """
-    template_name = 'common/password_change.html'
-    success_url = reverse_lazy('index')
-
-    # def form_valid(self, form):  # 유효성 검사 성공 이후 로직
-    #     messages.success(self.request, '암호를 변경했습니다.')  # 성공 메시지
-    #     return super().form_valid(form)  # 폼 검사 결과를 반환
-
-
 class PasswordResetView(auth_views.PasswordResetView):
     """
     비밀번호 초기화 - 사용자ID, email 입력
@@ -65,6 +53,5 @@ class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     """
     template_name = 'common/password_reset_confirm.html'
     success_url = reverse_lazy('common:login')
-
 
 # todo password_reset_email.html 템플릿 파일 만들기

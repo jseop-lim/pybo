@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h4 class="border-bottom pb-2 my-3">{{ profile_user.username }}</h4>
 {% include "common/profile/profile_tabs.html" %}
 
 <div id="profile_base">
-    {% if user == profile_user %}
+    <img src="{{ profile.image.url }}" class="img-thumbnail">
+    {% if user == profile.user %}
         <div class="profile_title">이메일</div>  {# todo 템플릿 경로에 profile 폴더 추가돼서 안되는 거 같음 #}
-        <p class="mb-4">{{ profile_user.email }}</p>
+        <p class="mb-4">{{ profile.user.email }}</p>
     {% endif %}
 </div>
 

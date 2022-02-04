@@ -144,6 +144,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media' # todo 리스트 아닌 문자열
+
 
 # 로그인 성공 후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'

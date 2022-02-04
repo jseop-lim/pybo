@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from common.views import account_views, profile_views
+from common.views import account_views, profile_views, settings_views
 
 
 app_name = 'common'
@@ -11,14 +11,19 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('sighup/', account_views.signup, name='signup'),
 
-    # 비밀번호 변경
-    path('password_change/', account_views.PasswordChangeView.as_view(), name='password_change'),
-    # path('password_change/done/', views.PasswordChangeView.as_view(), name='password_change_done'),
-
     # 비밀번호 초기화
     path('password_reset/', account_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', account_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     # path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+
+    # 계정설정
+    path('settings/base/', settings_views.base, name='settings_base'),
+    # 비밀번호 변경
+    path('settings/password_change/', settings_views.PasswordChangeView.as_view(), name='password_change'),
+    # path('password_change/done/', views.PasswordChangeView.as_view(), name='password_change_done'),
+    # 프로필 이미지
+    path('settings/image/', settings_views.profile_modify, name='settings_image'),
+    path('settings/image/delete/', settings_views.profile_image_delete, name='settings_image_delete'),
 
     # 프로필
     path('profile/base/<int:user_id>/', profile_views.profile_base, name='profile_base'),

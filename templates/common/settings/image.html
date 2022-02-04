@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "common/settings/tabs.html" %}
+
+{#<label for="basic-url">Your vanity URL</label>#}
+<form method="post" class="post-form py-3" enctype="multipart/form-data" action="{% url 'common:settings_image' %}">
+    {% csrf_token %}
+    {% include "form_errors.html" %}
+    <div class="form-group">
+{#        <label for="exampleFormControlFile1">Example file input</label>#}
+        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">  <!-- todo name이 폼에서 속성 이름과 일치하게 -->
+    </div>
+{#    <div class="input-group">#}
+{#      <div class="custom-file">#}
+{#        <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon" name="image">#}
+{#        <label class="custom-file-label" for="inputGroupFile">Choose file</label>#}
+{#      </div>#}
+{#      <div class="input-group-append">#}
+{#        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon">Delete</button>#}
+{#      </div>#}
+{#    </div>#}
+    <div class="my-3">
+        {% if profile.image %}
+            <img src="{{ profile.image.url }}" class="img-thumbnail">
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">저장하기</button>
+    <a href="{% url 'common:settings_image_delete' %}" class="btn btn-outline-secondary">지우기</a>
+</form>
+{% endblock %}

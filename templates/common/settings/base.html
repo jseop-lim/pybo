@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "common/settings/tabs.html" %}
+
+<div id="profile_base">
+    <div class="profile_title">이메일</div>
+    <p class="mb-4">{{ user.email }}</p>
+</div>
+
+{% endblock %}
