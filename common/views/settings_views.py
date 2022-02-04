@@ -1,8 +1,10 @@
-from django.contrib import messages
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.conf import settings
 
 from common.forms import ProfileForm
 
@@ -23,8 +25,12 @@ def profile_modify(request):
     """
     profile = request.user.profile
     if request.method == "POST":
+        old_image = profile.image
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            # 기존 이미지 파일 삭제
+            if old_image and 'image' in request.FILES:
+                os.remove(os.path.join(settings.MEDIA_ROOT, old_image.path))
             form.save()
             return redirect(request.path_info)
     else:
@@ -38,6 +44,9 @@ def profile_image_delete(request):
     계정설정 이미지 삭제
     """
     profile = request.user.profile
+    # 기존 이미지 파일 삭제
+    if profile.image:
+        os.remove(os.path.join(settings.MEDIA_ROOT, profile.image.path))
     profile.image = None
     profile.save()
     return redirect('common:settings_image')
